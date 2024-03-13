@@ -11,12 +11,16 @@ import android.widget.Toast;
 
 public class Lab1Activity extends AppCompatActivity {
 
+    Button backButton;
     boolean[] validationSuccess = {false, false, false};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lab1);
+
+        // nie działa :<<<
+        //getSupportActionBar().setTitle("test");
 
         Button returnButton = findViewById(R.id.returnButton);
         returnButton.setOnClickListener(v -> finish());

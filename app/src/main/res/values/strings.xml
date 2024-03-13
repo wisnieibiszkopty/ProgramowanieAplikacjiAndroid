@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ProgramowanieAplikacjiAndroid</string>
+    <string name="back">Powrót</string>
+    <string name="name">Imię</string>
+    <string name="name_input">Podaj imię</string>
+    <string name="surname">Nazwisko</string>
+    <string name="surname_input">Podaj nazwisko</string>
+    <string name="grades">Oceny</string>
+    <string name="grades_input">Podaj liczbę ocen [5–15]</string>
 </resources>

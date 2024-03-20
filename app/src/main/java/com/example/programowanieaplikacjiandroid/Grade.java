@@ -1,10 +1,10 @@
 package com.example.programowanieaplikacjiandroid;
 
-public class GradeModel {
+public class Grade {
     private String name;
     private int grade;
 
-    public GradeModel(String name, int grade) {
+    public Grade(String name, int grade) {
         this.name = name;
         this.grade = grade;
     }

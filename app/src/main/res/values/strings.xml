@@ -7,4 +7,21 @@
     <string name="surname_input">Podaj nazwisko</string>
     <string name="grades">Oceny</string>
     <string name="grades_input">Podaj liczbę ocen [5–15]</string>
+    <string-array name="grades_list">
+        <item>Android</item>
+        <item>iOS</item>
+        <item>Docker</item>
+        <item>Szkielety programistyczne</item>
+        <item>Interakcja człowiek-komputer</item>
+        <item>Bazy danych</item>
+        <item>Java</item>
+        <item>C++</item>
+        <item>Projekt zespołowy</item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+        <item></item>
+    </string-array>
 </resources>

@@ -1,7 +1,9 @@
 package com.example.programowanieaplikacjiandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +13,6 @@ import android.widget.Toast;
 
 public class Lab1Activity extends AppCompatActivity {
 
-    Button backButton;
     boolean[] validationSuccess = {false, false, false};
 
     @Override
@@ -19,11 +20,15 @@ public class Lab1Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lab1);
 
-        // nie działa :<<<
-        //getSupportActionBar().setTitle("test");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Zadanie 1");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button returnButton = findViewById(R.id.returnButton);
-        returnButton.setOnClickListener(v -> finish());
+        Button gradesButton = findViewById(R.id.gradesButton);
+        gradesButton.setOnClickListener(v -> {
+            startActivity(new Intent(this, GradesActivity.class));
+        });
 
         EditText nameText = findViewById(R.id.name);
         EditText surnameText = findViewById(R.id.surname);
@@ -85,22 +90,22 @@ public class Lab1Activity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        TextView name = findViewById(R.id.name);
-        TextView surname = findViewById(R.id.surname);
-        TextView grades = findViewById(R.id.grades);
-
-        outState.putString("name", name.getText().toString());
-        outState.putString("nameError", name.getError().toString());
-        outState.putString("surname", surname.getText().toString());
-        outState.putString("surnameError", surname.getError().toString());
-        outState.putString("grades", grades.getText().toString());
-        outState.putString("gradesError", grades.getError().toString());
-        outState.putBooleanArray("validation", this.validationSuccess);
-
-        super.onSaveInstanceState(outState);
-    }
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        TextView name = findViewById(R.id.name);
+//        TextView surname = findViewById(R.id.surname);
+//        TextView grades = findViewById(R.id.grades);
+//
+//        outState.putString("name", name.getText().toString());
+//        outState.putString("nameError", name.getError().toString());
+//        outState.putString("surname", surname.getText().toString());
+//        outState.putString("surnameError", surname.getError().toString());
+//        outState.putString("grades", grades.getText().toString());
+//        outState.putString("gradesError", grades.getError().toString());
+//        outState.putBooleanArray("validation", this.validationSuccess);
+//
+//        super.onSaveInstanceState(outState);
+//    }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){

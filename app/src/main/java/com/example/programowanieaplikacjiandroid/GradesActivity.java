@@ -1,9 +1,9 @@
 package com.example.programowanieaplikacjiandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
-import android.widget.Toolbar;
 
 public class GradesActivity extends AppCompatActivity {
 
@@ -12,6 +12,9 @@ public class GradesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grades);
 
-        //getSupportActionBar().setTitle("Grades");
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Oceny");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 }

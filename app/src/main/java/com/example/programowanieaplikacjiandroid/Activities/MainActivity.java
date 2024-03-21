@@ -1,4 +1,4 @@
-package com.example.programowanieaplikacjiandroid;
+package com.example.programowanieaplikacjiandroid.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.Button;
+
+import com.example.programowanieaplikacjiandroid.R;
 
 public class MainActivity extends AppCompatActivity {
 

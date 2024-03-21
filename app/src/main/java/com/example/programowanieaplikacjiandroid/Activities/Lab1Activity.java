@@ -1,4 +1,4 @@
-package com.example.programowanieaplikacjiandroid;
+package com.example.programowanieaplikacjiandroid.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,28 +11,30 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Lab1Activity extends AppCompatActivity {
+import com.example.programowanieaplikacjiandroid.EditTextOnFocusChange;
+import com.example.programowanieaplikacjiandroid.R;
+import com.example.programowanieaplikacjiandroid.databinding.ActivityGradesBinding;
+import com.example.programowanieaplikacjiandroid.databinding.ActivityLab1Binding;
 
-    boolean[] validationSuccess = {false, false, false};
+public class Lab1Activity extends AppCompatActivity {
+    private ActivityLab1Binding binding;
+    private boolean[] validationSuccess = {false, false, false};
+    private int gradeCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lab1);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        binding  = ActivityLab1Binding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setTitle("Zadanie 1");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button gradesButton = findViewById(R.id.gradesButton);
-        gradesButton.setOnClickListener(v -> {
-            startActivity(new Intent(this, GradesActivity.class));
-        });
-
-        EditText nameText = findViewById(R.id.name);
-        EditText surnameText = findViewById(R.id.surname);
-        EditText gradesText = findViewById(R.id.grades);
+        binding.gradesButton.setOnClickListener(v -> onFormSubmit());
 
         EditTextOnFocusChange nameFoo = text -> {
             if(text.getText().toString().isEmpty()){
@@ -46,14 +48,15 @@ public class Lab1Activity extends AppCompatActivity {
                 if(number < 5 || number > 15){
                     throw new NumberFormatException();
                 }
+                gradeCount = number;
             } catch(Exception e){
                 throw new Exception();
             }
         };
 
-        addFocusChangeListener(nameFoo, nameText, "Musisz wpisać imię!", 0);
-        addFocusChangeListener(nameFoo, surnameText, "Musisz wpisać nazwisko!", 1);
-        addFocusChangeListener(gradesFoo, gradesText, "Liczba musi być z przedziału [5, 15]!",2);
+        addFocusChangeListener(nameFoo, binding.name, "Musisz wpisać imię!", 0);
+        addFocusChangeListener(nameFoo, binding.surname, "Musisz wpisać nazwisko!", 1);
+        addFocusChangeListener(gradesFoo, binding.grades, "Liczba musi być z przedziału [5, 15]!",2);
 
     }
 
@@ -81,13 +84,25 @@ public class Lab1Activity extends AppCompatActivity {
     }
 
     private void onValidationChange(){
-        Button button = findViewById(R.id.gradesButton);
+        Button button = binding.gradesButton;
 
         if(validationSuccess[0] && validationSuccess[1] && validationSuccess[2]){
             button.setVisibility(View.VISIBLE);
         } else {
             button.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void onFormSubmit(){
+        Bundle bundle = new Bundle();
+        bundle.putInt("gradesCount", gradeCount);
+        bundle.putString("name", binding.name.getText().toString());
+        bundle.putString("surname", binding.surname.getText().toString());
+        Intent intent = new Intent(this, GradesActivity.class);
+        intent.putExtras(bundle);
+        //setResult(RESULT_OK, intent);
+        //finish();
+        startActivity(intent);
     }
 
 //    @Override
@@ -109,9 +124,9 @@ public class Lab1Activity extends AppCompatActivity {
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){
-        TextView name = findViewById(R.id.name);
-        TextView surname = findViewById(R.id.surname);
-        TextView grades = findViewById(R.id.grades);
+        TextView name = binding.name;
+        TextView surname = binding.surname;
+        TextView grades = binding.grades;
 
         name.setText(savedInstanceState.getString("name"));
         name.setError(savedInstanceState.getString("nameError"));

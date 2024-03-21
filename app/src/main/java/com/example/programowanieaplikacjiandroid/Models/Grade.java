@@ -1,4 +1,4 @@
-package com.example.programowanieaplikacjiandroid;
+package com.example.programowanieaplikacjiandroid.Models;
 
 public class Grade {
     private String name;

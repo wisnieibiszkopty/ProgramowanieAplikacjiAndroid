@@ -1,14 +1,16 @@
-package com.example.programowanieaplikacjiandroid;
+package com.example.programowanieaplikacjiandroid.Adapters;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.programowanieaplikacjiandroid.Models.Grade;
+import com.example.programowanieaplikacjiandroid.R;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,14 +49,6 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeHolder>
             g.setName(name);
             g.setGrade(grade);
         }
-//
-//        public TextView getProductName() {
-//            return productName;
-//        }
-//
-//        public TextView getProductDescription() {
-//            return productDescription;
-//        }
     }
 
     @NonNull

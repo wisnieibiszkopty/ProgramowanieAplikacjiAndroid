@@ -1,10 +1,19 @@
 package com.example.programowanieaplikacjiandroid.Activities;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,13 +22,14 @@ import android.widget.Toast;
 
 import com.example.programowanieaplikacjiandroid.EditTextOnFocusChange;
 import com.example.programowanieaplikacjiandroid.R;
-import com.example.programowanieaplikacjiandroid.databinding.ActivityGradesBinding;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityLab1Binding;
 
 public class Lab1Activity extends AppCompatActivity {
     private ActivityLab1Binding binding;
     private boolean[] validationSuccess = {false, false, false};
     private int gradeCount;
+    private boolean passed = false;
+    private double gradePointAverage = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +45,7 @@ public class Lab1Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         binding.gradesButton.setOnClickListener(v -> onFormSubmit());
+        binding.endButton.setOnClickListener(v -> onAppEnd());
 
         EditTextOnFocusChange nameFoo = text -> {
             if(text.getText().toString().isEmpty()){
@@ -57,7 +68,6 @@ public class Lab1Activity extends AppCompatActivity {
         addFocusChangeListener(nameFoo, binding.name, "Musisz wpisać imię!", 0);
         addFocusChangeListener(nameFoo, binding.surname, "Musisz wpisać nazwisko!", 1);
         addFocusChangeListener(gradesFoo, binding.grades, "Liczba musi być z przedziału [5, 15]!",2);
-
     }
 
     private void addFocusChangeListener(EditTextOnFocusChange foo, EditText text, String errorMessage, int n){
@@ -100,12 +110,50 @@ public class Lab1Activity extends AppCompatActivity {
         bundle.putString("surname", binding.surname.getText().toString());
         Intent intent = new Intent(this, GradesActivity.class);
         intent.putExtras(bundle);
-        //setResult(RESULT_OK, intent);
-        //finish();
-        startActivity(intent);
+        //deprecated
+        //startActivityForResult(intent, RESULT_OK);
+        activityResultLauncher.launch(intent);
     }
 
-//    @Override
+    // 💀💀💀💀💀
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Intent data = result.getData();
+                    handleActivityResult(data);
+                }
+            }
+    );
+
+    private void handleActivityResult(Intent data){
+        passed = data.getExtras().getBoolean("passed");
+        Button endButton = binding.endButton;
+
+        if(passed){
+            endButton.setText("Super :')");
+        } else {
+            endButton.setText("Tym razem mi nie poszło :<");
+        }
+        endButton.setVisibility(View.VISIBLE);
+    }
+
+    private void onAppEnd(){
+        String message = passed ? "Gratulacje, otrzymujesz zaliecznie!"
+                : "Wysyłam podanie o zaliczenie warunkowe 💀💀💀" ;
+
+        AlertDialog alert = new AlertDialog.Builder(Lab1Activity.this)
+                .setMessage(message)
+                .setTitle("Opuszczasz aplikacje!")
+                .setCancelable(false)
+                .setPositiveButton("Yes", (dialog, which) -> finish())
+                .create();
+
+        alert.show();
+    }
+
+    //    @Override
 //    protected void onSaveInstanceState(Bundle outState) {
 //        TextView name = findViewById(R.id.name);
 //        TextView surname = findViewById(R.id.surname);

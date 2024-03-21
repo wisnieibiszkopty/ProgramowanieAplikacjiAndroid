@@ -7,6 +7,7 @@
     <string name="surname_input">Podaj nazwisko</string>
     <string name="grades">Oceny</string>
     <string name="grades_input">Podaj liczbę ocen [5–15]</string>
+    <string name="grade_average">Oblicz średnią</string>
     <string-array name="grades_list">
         <item>Android</item>
         <item>iOS</item>
@@ -17,11 +18,11 @@
         <item>Java</item>
         <item>C++</item>
         <item>Projekt zespołowy</item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
-        <item></item>
+        <item>PHP</item>
+        <item>Inżynieria oprogramowania</item>
+        <item>Sztuczna Inteligencja</item>
+        <item>Systemy Wbudowane</item>
+        <item>Sieci komputerowe</item>
+        <item>Grafika komputerowa</item>
     </string-array>
 </resources>

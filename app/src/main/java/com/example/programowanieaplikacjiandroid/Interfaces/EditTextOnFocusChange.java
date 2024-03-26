@@ -1,4 +1,4 @@
-package com.example.programowanieaplikacjiandroid;
+package com.example.programowanieaplikacjiandroid.Interfaces;
 
 import android.widget.EditText;
 

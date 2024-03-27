@@ -13,9 +13,13 @@
         android:theme="@style/Theme.ProgramowanieAplikacjiAndroid"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.Lab3Activity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity"/>
+        <activity
             android:name=".Activities.GradesActivity"
             android:exported="false"
-            android:parentActivityName=".Activities.Lab1Activity"/>
+            android:parentActivityName=".Activities.Lab1Activity" />
         <activity
             android:name=".Activities.Lab1Activity"
             android:exported="false"

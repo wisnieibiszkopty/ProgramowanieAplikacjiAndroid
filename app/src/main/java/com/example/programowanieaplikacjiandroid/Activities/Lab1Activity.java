@@ -37,7 +37,7 @@ public class Lab1Activity extends AppCompatActivity {
         setContentView(view);
 
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("Zadanie 1");
+        getSupportActionBar().setTitle("Laboratorium 2");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         binding.gradesButton.setOnClickListener(v -> onFormSubmit());
@@ -130,6 +130,8 @@ public class Lab1Activity extends AppCompatActivity {
         gradePointAverage = data.getExtras().getDouble("average");
 
         isFinished = true;
+
+        binding.average.setText("Twoja średnia to: " + gradePointAverage);
 
         changeEndButtonState();
     }

@@ -11,27 +11,22 @@ import com.example.programowanieaplikacjiandroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final Class[] acitvities = {Lab1Activity.class, Lab3Activity.class};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Button lab1Button = findViewById(R.id.lab1);
-        lab1Button.setOnClickListener(v -> startLab1());
-
-        Button wwwButton = findViewById(R.id.webButton);
-        wwwButton.setOnClickListener(v -> startWWW());
+        lab1Button.setOnClickListener(v -> startLab(0));
+        Button lab3Button = findViewById(R.id.lab3);
+        lab3Button.setOnClickListener(v -> startLab(1));
     }
 
-    private void startLab1(){
-        Intent intent = new Intent(this, Lab1Activity.class);
+    private void startLab(int n){
+        Intent intent = new Intent(this, acitvities[n]);
         startActivity(intent);
     }
 
-    // nie używać 💀💀💀💀💀
-    private void startWWW(){
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("https://jbzd.com.pl/"));
-        startActivity(intent);
-    }
 }

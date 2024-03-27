@@ -1,5 +1,6 @@
 package com.example.programowanieaplikacjiandroid.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,11 +21,15 @@ import com.example.programowanieaplikacjiandroid.databinding.ActivityGradesBindi
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class GradesActivity extends AppCompatActivity {
 
     private ActivityGradesBinding binding;
     private List<Grade> grades;
     private int gradeCount = 0;
+    private String name;
+    private String surname;
     private double gradesAverage;
 
     @Override
@@ -37,7 +43,9 @@ public class GradesActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         gradeCount = bundle.getInt("gradesCount");
-        binding.grades.setText("oceny:" + gradeCount);
+        name = bundle.getString("name");
+        surname = bundle.getString("surname");
+        binding.student.setText("Student " + name + " " + surname);
 
         String[] gradesNames = getResources().getStringArray(R.array.grades_list);
 
@@ -57,6 +65,7 @@ public class GradesActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         binding.averageButton.setOnClickListener(v -> onFinish());
+
     }
 
     private void computeAverage(){
@@ -71,7 +80,10 @@ public class GradesActivity extends AppCompatActivity {
         computeAverage();
         boolean passed = gradesAverage >= 3;
         Bundle bundleOut = new Bundle();
+        bundleOut.putString("name", name);
+        bundleOut.putString("surname", surname);
         bundleOut.putBoolean("passed", passed);
+        bundleOut.putDouble("average", gradesAverage);
         Intent intent = new Intent();
         intent.putExtras(bundleOut);
         int result = passed ? RESULT_OK : RESULT_CANCELED;

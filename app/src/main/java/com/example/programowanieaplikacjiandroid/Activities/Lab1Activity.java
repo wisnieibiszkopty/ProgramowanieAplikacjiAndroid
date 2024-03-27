@@ -25,6 +25,7 @@ public class Lab1Activity extends AppCompatActivity {
     private int gradeCount;
     private boolean passed = false;
     private double gradePointAverage = 0.0;
+    private boolean isFinished = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,8 +106,7 @@ public class Lab1Activity extends AppCompatActivity {
         bundle.putString("surname", binding.surname.getText().toString());
         Intent intent = new Intent(this, GradesActivity.class);
         intent.putExtras(bundle);
-        //deprecated
-        //startActivityForResult(intent, RESULT_OK);
+
         activityResultLauncher.launch(intent);
     }
 
@@ -123,62 +123,73 @@ public class Lab1Activity extends AppCompatActivity {
     );
 
     private void handleActivityResult(Intent data){
-        passed = data.getExtras().getBoolean("passed");
-        Button endButton = binding.endButton;
+        binding.name.setText(data.getExtras().getString("name"));
+        binding.surname.setText(data.getExtras().getString("surname"));
 
-        if(passed){
-            endButton.setText("Super :')");
-        } else {
-            endButton.setText("Tym razem mi nie poszło :<");
+        passed = data.getExtras().getBoolean("passed");
+        gradePointAverage = data.getExtras().getDouble("average");
+
+        isFinished = true;
+
+        changeEndButtonState();
+    }
+
+    private void changeEndButtonState(){
+        if(isFinished){
+            Button endButton = binding.endButton;
+
+            if(passed){
+                endButton.setText("Super :')");
+            } else {
+                endButton.setText("Tym razem mi nie poszło :<");
+            }
+            endButton.setVisibility(View.VISIBLE);
         }
-        endButton.setVisibility(View.VISIBLE);
     }
 
     private void onAppEnd(){
-        String message = passed ? "Gratulacje, otrzymujesz zaliecznie!"
-                : "Wysyłam podanie o zaliczenie warunkowe 💀💀💀" ;
+
+        String averageString = String.format("Twoja średnia to %.2f ", gradePointAverage);
+        String message = averageString + (passed ? "Gratulacje, otrzymujesz zaliecznie!"
+                : "Wysyłam podanie o zaliczenie warunkowe 💀💀💀");
 
         AlertDialog alert = new AlertDialog.Builder(Lab1Activity.this)
                 .setMessage(message)
                 .setTitle("Opuszczasz aplikacje!")
                 .setCancelable(false)
-                .setPositiveButton("Yes", (dialog, which) -> finish())
+                .setPositiveButton("OK", (dialog, which) -> finish())
                 .create();
 
         alert.show();
     }
 
-    //    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        TextView name = findViewById(R.id.name);
-//        TextView surname = findViewById(R.id.surname);
-//        TextView grades = findViewById(R.id.grades);
-//
-//        outState.putString("name", name.getText().toString());
-//        outState.putString("nameError", name.getError().toString());
-//        outState.putString("surname", surname.getText().toString());
-//        outState.putString("surnameError", surname.getError().toString());
-//        outState.putString("grades", grades.getText().toString());
-//        outState.putString("gradesError", grades.getError().toString());
-//        outState.putBooleanArray("validation", this.validationSuccess);
-//
-//        super.onSaveInstanceState(outState);
-//    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBooleanArray("validation", this.validationSuccess);
+        outState.putString("name", String.valueOf(binding.name.getText()));
+        outState.putString("surname", String.valueOf(binding.surname.getText()));
+        outState.putInt("gradeCount", gradeCount);
+        outState.putBoolean("passed", passed);
+        outState.putDouble("gradePointAverage", gradePointAverage);
+        outState.putBoolean("isFinished", isFinished);
+
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState){
-        TextView name = binding.name;
-        TextView surname = binding.surname;
-        TextView grades = binding.grades;
-
-        name.setText(savedInstanceState.getString("name"));
-        name.setError(savedInstanceState.getString("nameError"));
-        surname.setText(savedInstanceState.getString("surname"));
-        surname.setError(savedInstanceState.getString("surnameError"));
-        grades.setText(savedInstanceState.getString("grades"));
-        grades.setError(savedInstanceState.getString("gradesError"));
+        binding.name.setText(savedInstanceState.getString("name"));
+        binding.surname.setText(savedInstanceState.getString("surname"));
 
         this.validationSuccess = savedInstanceState.getBooleanArray("validation");
+        onValidationChange();
+
+        passed = savedInstanceState.getBoolean("passed");
+        gradeCount = savedInstanceState.getInt("gradeCount");
+        gradePointAverage = savedInstanceState.getDouble("gradePointAverage");
+        isFinished = savedInstanceState.getBoolean("isFinished");
+
+        changeEndButtonState();
 
         super.onRestoreInstanceState(savedInstanceState);
     }

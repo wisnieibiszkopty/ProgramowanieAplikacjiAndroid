@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.programowanieaplikacjiandroid.Models.Grade;
 import com.example.programowanieaplikacjiandroid.R;
+import com.example.programowanieaplikacjiandroid.Utils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +54,8 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeHolder>
     public class GradeHolder extends RecyclerView.ViewHolder implements RadioGroup.OnCheckedChangeListener {
         private TextView name;
         private Integer grade = 2;
-        Map<Integer, Integer> radioButtons;
+        private final Map<Integer, Integer> radioButtons;
+        private List<RadioButton> radioButtonsReferences;
 
         public GradeHolder(View view){
             super(view);
@@ -69,11 +72,26 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeHolder>
             radioButtons.put(R.id.grade_3, 3);
             radioButtons.put(R.id.grade_4, 4);
             radioButtons.put(R.id.grade_5, 5);
+
+            radioButtonsReferences = new ArrayList<>();
+            radioButtonsReferences.add(view.findViewById(R.id.grade_2));
+            radioButtonsReferences.add(view.findViewById(R.id.grade_3));
+            radioButtonsReferences.add(view.findViewById(R.id.grade_4));
+            radioButtonsReferences.add(view.findViewById(R.id.grade_5));
         }
 
         public void bindData(Grade g){
             name.setText(g.getName());
             grade = g.getGrade();
+
+            // setting radio button checked depending on grade value
+            Integer position = Utils.getKeyByValue(radioButtons, grade);
+            for(RadioButton rb : radioButtonsReferences){
+                if(rb.getId() == position){
+                    rb.setChecked(true);
+                    break;
+                }
+            }
         }
 
         @Override

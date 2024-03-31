@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,15 +19,17 @@ import com.example.programowanieaplikacjiandroid.Models.Grade;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityGradesBinding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+// todo jest problem zaznaczone wartości nie zapisują się po obrocie
 
 
 public class GradesActivity extends AppCompatActivity {
 
     private ActivityGradesBinding binding;
-    private List<Grade> grades;
+    private ArrayList<Grade> grades;
     private int gradeCount = 0;
     private String name;
     private String surname;
@@ -45,8 +48,6 @@ public class GradesActivity extends AppCompatActivity {
         gradeCount = bundle.getInt("gradesCount");
         name = bundle.getString("name");
         surname = bundle.getString("surname");
-        binding.student.setText("Student " + name + " " + surname);
-
         String[] gradesNames = getResources().getStringArray(R.array.grades_list);
 
         grades = new ArrayList<>();
@@ -54,10 +55,7 @@ public class GradesActivity extends AppCompatActivity {
             grades.add(new Grade(gradesNames[i], 2));
         }
 
-        GradeAdapter adapter = new GradeAdapter(this, grades);
-        RecyclerView gradesList = binding.gradesList;
-        gradesList.setAdapter(adapter);
-        gradesList.setLayoutManager(new LinearLayoutManager(this));
+        setUpState();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,6 +64,23 @@ public class GradesActivity extends AppCompatActivity {
 
         binding.averageButton.setOnClickListener(v -> onFinish());
 
+    }
+
+    // wrap this code into separated method, so
+    // it can be called in onCreate and onRestoreInstanceState
+    private void setUpState(){
+        binding.student.setText("Student " + name + " " + surname);
+
+        Log.v("setup", "Setup method is being called");
+
+        for(Grade grade: grades){
+            Log.i("grade: ", grade.toString());
+        }
+
+        GradeAdapter adapter = new GradeAdapter(this, grades);
+        RecyclerView gradesList = binding.gradesList;
+        gradesList.setAdapter(adapter);
+        gradesList.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void computeAverage(){
@@ -89,5 +104,27 @@ public class GradesActivity extends AppCompatActivity {
         int result = passed ? RESULT_OK : RESULT_CANCELED;
         setResult(result, intent);
         finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString("name", name);
+        outState.putString("surname", surname);
+        outState.putDouble("average", gradesAverage);
+        outState.putParcelableArrayList("grades", grades);
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        name = savedInstanceState.getString("name");
+        surname = savedInstanceState.getString("surname");
+        gradesAverage = savedInstanceState.getDouble("average");
+        grades = savedInstanceState.getParcelableArrayList("grades");
+
+        setUpState();
+
+        super.onRestoreInstanceState(savedInstanceState);
     }
 }

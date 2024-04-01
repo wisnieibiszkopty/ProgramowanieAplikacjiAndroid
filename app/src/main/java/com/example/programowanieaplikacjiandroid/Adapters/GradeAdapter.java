@@ -55,7 +55,7 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeHolder>
         private TextView name;
         private Integer grade = 2;
         private final Map<Integer, Integer> radioButtons;
-        private List<RadioButton> radioButtonsReferences;
+        private final List<RadioButton> radioButtonsReferences;
 
         public GradeHolder(View view){
             super(view);

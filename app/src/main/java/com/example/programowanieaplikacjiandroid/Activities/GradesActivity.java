@@ -8,20 +8,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import com.example.programowanieaplikacjiandroid.Adapters.GradeAdapter;
 import com.example.programowanieaplikacjiandroid.Models.Grade;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityGradesBinding;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 // todo jest problem zaznaczone wartości nie zapisują się po obrocie
 
@@ -34,6 +30,7 @@ public class GradesActivity extends AppCompatActivity {
     private String name;
     private String surname;
     private double gradesAverage;
+    private boolean endedByBackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,17 +90,41 @@ public class GradesActivity extends AppCompatActivity {
 
     private void onFinish(){
         computeAverage();
+        endedByBackButton = false;
         boolean passed = gradesAverage >= 3;
         Bundle bundleOut = new Bundle();
         bundleOut.putString("name", name);
         bundleOut.putString("surname", surname);
         bundleOut.putBoolean("passed", passed);
+        bundleOut.putBoolean("endedByBackButton", endedByBackButton);
+        bundleOut.putInt("gradeCount", gradeCount);
         bundleOut.putDouble("average", gradesAverage);
         Intent intent = new Intent();
         intent.putExtras(bundleOut);
         int result = passed ? RESULT_OK : RESULT_CANCELED;
         setResult(result, intent);
         finish();
+    }
+
+    // after clicking back button app won't invoke ActivityResultCallback
+    // and input fields will be cleared. This method is preventing this from happen
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            endedByBackButton = true;
+            Bundle bundle = new Bundle();
+            bundle.putString("name", name);
+            bundle.putString("surname", surname);
+            bundle.putInt("gradeCount", gradeCount);
+            bundle.putBoolean("endedByBackButton", endedByBackButton);
+
+            setResult(RESULT_OK, new Intent().putExtras(bundle));
+            finish();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

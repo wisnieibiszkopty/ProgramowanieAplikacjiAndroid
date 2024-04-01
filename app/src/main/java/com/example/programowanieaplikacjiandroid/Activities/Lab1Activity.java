@@ -100,6 +100,8 @@ public class Lab1Activity extends AppCompatActivity {
     }
 
     private void onFormSubmit(){
+        onValidationChange();
+
         Bundle bundle = new Bundle();
         bundle.putInt("gradesCount", gradeCount);
         bundle.putString("name", binding.name.getText().toString());
@@ -123,17 +125,20 @@ public class Lab1Activity extends AppCompatActivity {
     );
 
     private void handleActivityResult(Intent data){
+        boolean endedByBackButton = data.getExtras().getBoolean("endedByBackButton");
+        if(!endedByBackButton){
+            passed = data.getExtras().getBoolean("passed");
+            gradePointAverage = data.getExtras().getDouble("average");
+            isFinished = true;
+            binding.card.setVisibility(View.VISIBLE);
+            binding.finalName.setText("Imię: " + data.getExtras().getString("name"));
+            binding.finalSurname.setText("Nazwisko: " + data.getExtras().getString("surname"));
+            binding.average.setText("Twoja średnia to: " + gradePointAverage);
+            changeEndButtonState();
+        }
+
         binding.name.setText(data.getExtras().getString("name"));
         binding.surname.setText(data.getExtras().getString("surname"));
-
-        passed = data.getExtras().getBoolean("passed");
-        gradePointAverage = data.getExtras().getDouble("average");
-
-        isFinished = true;
-
-        binding.average.setText("Twoja średnia to: " + gradePointAverage);
-
-        changeEndButtonState();
     }
 
     private void changeEndButtonState(){
@@ -167,10 +172,13 @@ public class Lab1Activity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        // basic data
         outState.putBooleanArray("validation", this.validationSuccess);
         outState.putString("name", String.valueOf(binding.name.getText()));
         outState.putString("surname", String.valueOf(binding.surname.getText()));
         outState.putInt("gradeCount", gradeCount);
+
+        // after finishing intent
         outState.putBoolean("passed", passed);
         outState.putDouble("gradePointAverage", gradePointAverage);
         outState.putBoolean("isFinished", isFinished);

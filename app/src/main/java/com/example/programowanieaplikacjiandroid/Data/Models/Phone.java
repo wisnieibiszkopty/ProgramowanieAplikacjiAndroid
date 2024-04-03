@@ -64,4 +64,13 @@ public class Phone {
     public void setWebsite(String website) {
         this.website = website;
     }
+
+    @Override
+    public String toString() {
+        return "Phone{" +
+                "id=" + id +
+                ", producer='" + producer + '\'' +
+                ", model='" + model + '\'' +
+                '}';
+    }
 }

@@ -17,4 +17,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/phone_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_toolbar"
+        tools:listitem="@layout/phone_component" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@
     <string name="grades">Oceny</string>
     <string name="grades_input">Podaj liczbę ocen [5–15]</string>
     <string name="grade_average">Oblicz średnią</string>
+    <string name="delete_all">Delete all</string>
     <string-array name="grades_list">
         <item>Android</item>
         <item>iOS</item>

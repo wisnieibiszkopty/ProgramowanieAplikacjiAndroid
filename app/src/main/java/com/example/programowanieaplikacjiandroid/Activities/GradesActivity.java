@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.programowanieaplikacjiandroid.Adapters.GradeAdapter;
-import com.example.programowanieaplikacjiandroid.Models.Grade;
+import com.example.programowanieaplikacjiandroid.Data.Models.Grade;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityGradesBinding;
 

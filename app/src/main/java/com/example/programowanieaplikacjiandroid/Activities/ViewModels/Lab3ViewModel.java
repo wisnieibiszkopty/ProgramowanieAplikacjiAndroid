@@ -13,14 +13,7 @@ import com.example.programowanieaplikacjiandroid.Data.Repositories.PhoneReposito
 import java.util.List;
 
 // TODO
-// Edycja rekordu
-// kliknięcia w adapterze
-// przekaż dane do InsertPhoneActivity
-// zwracanie zmodyfikowanych danych
-// update w DAO
-
 // walidacja pola tekstowego
-
 // kasowanie pojedyńczych rekordów, użyc ItemTouchHelper
 
 public class Lab3ViewModel extends AndroidViewModel {
@@ -37,11 +30,12 @@ public class Lab3ViewModel extends AndroidViewModel {
         return phones;
     }
 
-    // co za id??????
-    // tworzy się z 0, ale później się samo generuje
     public void insertPhone(Phone phone){
-        Log.i("phone", phone.toStringAllArgs());
         repository.addPhone(phone);
+    }
+
+    public void updatePhone(Phone phone){
+        repository.updatePhone(phone);
     }
 
     public void deleteAllPhones(){

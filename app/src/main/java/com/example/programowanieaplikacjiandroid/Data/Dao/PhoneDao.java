@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.programowanieaplikacjiandroid.Data.Models.Phone;
 
@@ -18,7 +19,10 @@ public interface PhoneDao {
     @Insert
     void insertPhones(Phone... phones);
 
-    @Query("SELECT p.id, p.producer, p.model FROM phone p")
+    @Update
+    void updatePhone(Phone phone);
+
+    @Query("SELECT * FROM phone")
     LiveData<List<Phone>> selectAll();
 
     @Query("DELETE FROM phone")

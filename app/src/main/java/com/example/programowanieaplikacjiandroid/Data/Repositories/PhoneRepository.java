@@ -35,6 +35,12 @@ public class PhoneRepository {
         return phones;
     }
 
+    public void updatePhone(Phone phone){
+        Database.databaseWriteExecutor.execute(() -> {
+            dao.updatePhone(phone);
+        });
+    }
+
     public void deleteAllPhones(){
         // błąd - za dużo czasu zajmuje operacja i trzeba wrzucić do osobnego wątku
         // dlatego używam executora

@@ -24,7 +24,7 @@ import com.example.programowanieaplikacjiandroid.Data.Models.Phone;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityLab3Binding;
 
-public class Lab3Activity extends AppCompatActivity {
+public class Lab3Activity extends AppCompatActivity implements PhoneAdapter.OnItemClickListener{
     private ActivityLab3Binding binding;
     private Lab3ViewModel viewModel;
     private PhoneAdapter phoneAdapter;
@@ -98,13 +98,20 @@ public class Lab3Activity extends AppCompatActivity {
 
     public void handleActivityResult(Intent data){
         if(data != null && data.getExtras().getBoolean("hasPhone")){
-            viewModel.insertPhone(new Phone(
-                    data.getStringExtra("producer"),
-                    data.getStringExtra("model"),
-                    data.getStringExtra("version"),
-                    data.getStringExtra("website")
-            ));
+            Phone phone = data.getParcelableExtra("phone");
+
+            if(data.getBooleanExtra("edited", false)){
+                viewModel.updatePhone(phone);
+            } else {
+                viewModel.insertPhone(phone);
+            }
         }
     }
 
+    @Override
+    public void onItemClickListener(Phone phone) {
+        Intent intent = new Intent(this, InsertPhoneActivity.class);
+        intent.putExtra("phone", phone);
+        activityResultLauncher.launch(intent);
+    }
 }

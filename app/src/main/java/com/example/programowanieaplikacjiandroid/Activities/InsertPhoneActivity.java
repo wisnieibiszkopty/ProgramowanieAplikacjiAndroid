@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.example.programowanieaplikacjiandroid.Data.Models.Phone;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityInsertPhoneBinding;
 
 public class InsertPhoneActivity extends AppCompatActivity {
     private ActivityInsertPhoneBinding binding;
+    private boolean editing = false;
+    Phone editedPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,18 @@ public class InsertPhoneActivity extends AppCompatActivity {
         binding.websiteButton.setOnClickListener(v -> onWebsite());
         binding.cancelButton.setOnClickListener(v -> onCancel());
         binding.saveButton.setOnClickListener(v -> onSave());
+
+        // if intent comes with phone object it means user wants to edit it
+        Intent intent  = getIntent();
+        if(intent.getExtras() != null && intent.getExtras().getParcelable("phone") != null){
+            editing = true;
+            editedPhone = intent.getExtras().getParcelable("phone");
+            binding.producer.setText(editedPhone.getProducer());
+            binding.model.setText(editedPhone.getModel());
+            binding.version.setText(editedPhone.getVersion());
+            binding.website.setText(editedPhone.getWebsite());
+        }
+
     }
 
     private void onWebsite(){
@@ -46,11 +62,16 @@ public class InsertPhoneActivity extends AppCompatActivity {
 
     private void onSave(){
         Bundle bundle = new Bundle();
-        bundle.putString("producer", binding.producer.getText().toString());
-        bundle.putString("model", binding.model.getText().toString());
-        bundle.putString("version", binding.version.getText().toString());
-        bundle.putString("website", binding.website.getText().toString());
+        editedPhone.setProducer(binding.producer.getText().toString());
+        editedPhone.setModel(binding.model.getText().toString());
+        editedPhone.setVersion(binding.version.getText().toString());
+        editedPhone.setWebsite(binding.website.getText().toString());
+        bundle.putParcelable("phone", editedPhone);
         bundle.putBoolean("hasPhone", true);
+
+        if(editing){
+            bundle.putBoolean("edited", true);
+        }
 
         Intent intent = new Intent().putExtras(bundle);
         setResult(RESULT_OK, intent);

@@ -1,12 +1,15 @@
 package com.example.programowanieaplikacjiandroid.Data.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "phone")
-public class Phone {
+public class Phone implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo(name = "producer")
@@ -23,6 +26,22 @@ public class Phone {
         this.model = model;
         this.version = version;
         this.website = website;
+    }
+
+//    public Phone(int id, String producer, String model, String version, String website) {
+//        this.id = id;
+//        this.producer = producer;
+//        this.model = model;
+//        this.version = version;
+//        this.website = website;
+//    }
+
+    public Phone(Parcel source) {
+        id = source.readInt();
+        producer = source.readString();
+        model = source.readString();
+        version = source.readString();
+        website = source.readString();
     }
 
     public int getId() {
@@ -83,4 +102,30 @@ public class Phone {
                 ", website='" + website + '\'' +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(producer);
+        dest.writeString(model);
+        dest.writeString(version);
+        dest.writeString(website);
+    }
+
+    public static final Creator<Phone> CREATOR = new Creator<Phone>() {
+        @Override
+        public Phone createFromParcel(Parcel source) {
+            return new Phone(source);
+        }
+
+        @Override
+        public Phone[] newArray(int size) {
+            return new Phone[size];
+        }
+    };
 }

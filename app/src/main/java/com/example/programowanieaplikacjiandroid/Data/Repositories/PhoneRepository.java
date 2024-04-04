@@ -41,6 +41,12 @@ public class PhoneRepository {
         });
     }
 
+    public void deletePhone(Phone phone){
+        Database.databaseWriteExecutor.execute(() -> {
+            dao.deletePhone(phone);
+        });
+    }
+
     public void deleteAllPhones(){
         // błąd - za dużo czasu zajmuje operacja i trzeba wrzucić do osobnego wątku
         // dlatego używam executora

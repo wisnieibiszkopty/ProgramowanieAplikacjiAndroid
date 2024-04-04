@@ -20,6 +20,7 @@
     <string name="website_button">WEBSITE</string>
     <string name="cancel_button">Cancel</string>
     <string name="save_button">Save</string>
+    <string name="text_validation_success">Wprowadzono poprawne dane</string>
     <string-array name="grades_list">
         <item>Android</item>
         <item>iOS</item>

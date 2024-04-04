@@ -30,8 +30,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
@@ -62,7 +62,4 @@ dependencies {
     testImplementation("androidx.room:room-testing:$room_version")
     // optional - Paging 3 Integration
     implementation("androidx.room:room-paging:$room_version")
-    //implementation("androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion")
-    //noinspection LifecycleAnnotationProcessorWithJava8
-    //annotationProcessor("androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion")
 }

@@ -1,7 +1,6 @@
 package com.example.programowanieaplikacjiandroid.Activities.ViewModels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -36,6 +35,11 @@ public class Lab3ViewModel extends AndroidViewModel {
 
     public void updatePhone(Phone phone){
         repository.updatePhone(phone);
+    }
+
+    public void deletePhone(int position){
+        Phone phone = phones.getValue().get(position);
+        repository.deletePhone(phone);
     }
 
     public void deleteAllPhones(){

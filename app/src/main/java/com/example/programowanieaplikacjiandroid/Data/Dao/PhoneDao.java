@@ -21,7 +21,7 @@ public interface PhoneDao {
     @Query("SELECT p.id, p.producer, p.model FROM phone p")
     LiveData<List<Phone>> selectAll();
 
-    @Delete
-    void deleteAll(Phone... phones);
+    @Query("DELETE FROM phone")
+    void deleteAll();
 
 }

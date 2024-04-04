@@ -73,4 +73,14 @@ public class Phone {
                 ", model='" + model + '\'' +
                 '}';
     }
+
+    public String toStringAllArgs() {
+        return "Phone{" +
+                "id=" + id +
+                ", producer='" + producer + '\'' +
+                ", model='" + model + '\'' +
+                ", version='" + version + '\'' +
+                ", website='" + website + '\'' +
+                '}';
+    }
 }

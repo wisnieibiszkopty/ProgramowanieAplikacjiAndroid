@@ -5,18 +5,22 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:enableOnBackInvokedCallback="true"
         android:theme="@style/Theme.ProgramowanieAplikacjiAndroid"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".Activities.InsertPhoneActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.Lab3Activity"/>
+        <activity
             android:name=".Activities.Lab3Activity"
             android:exported="false"
-            android:parentActivityName=".Activities.MainActivity"/>
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
             android:name=".Activities.GradesActivity"
             android:exported="false"

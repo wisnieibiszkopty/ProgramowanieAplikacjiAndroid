@@ -1,5 +1,6 @@
 package com.example.programowanieaplikacjiandroid.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -7,11 +8,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,26 +42,29 @@ public class Lab3Activity extends AppCompatActivity {
 //            return insets;
 //        });
 
+        // basic setup
         binding  = ActivityLab3Binding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
 
+        // actionbar configuration
         setSupportActionBar(binding.phoneToolbar);
         getSupportActionBar().setTitle("Laboratorium 3");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //RecyclerView recyclerView = binding.phoneList;
-        //phoneAdapter = new PhoneAdapter(this);
-        //recyclerView.setAdapter(phoneAdapter);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // creating recycler view for phones
+        RecyclerView recyclerView = binding.phoneList;
+        phoneAdapter = new PhoneAdapter(this);
+        recyclerView.setAdapter(phoneAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // providing view model and using it to show all phones
         viewModel = new ViewModelProvider(this).get(Lab3ViewModel.class);
-        viewModel.getAllPhones().observe(this, phones -> {
-            for(Phone phone: phones){
-                Log.i("phone", phone.toString());
-            }
-            //phoneAdapter.setPhoneList(phones);
-        });
+        viewModel.getAllPhones().observe(this, phones -> phoneAdapter.setPhoneList(phones));
+
+        binding.fabAddPhone.setOnClickListener(v ->
+            activityResultLauncher.launch(new Intent(this, InsertPhoneActivity.class))
+        );
     }
 
     @Override
@@ -71,14 +76,35 @@ public class Lab3Activity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // don't work 😒
-        if (item.getItemId() == 1000004) {
+        if (item.getItemId() == R.id.delete_all_phones) {
+            viewModel.deleteAllPhones();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void deleteAllPhones(){
+    // handling new activity for creating phones
+    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    Intent data = result.getData();
+                    handleActivityResult(data);
+                }
+            }
+    );
 
+    public void handleActivityResult(Intent data){
+        if(data != null && data.getExtras().getBoolean("hasPhone")){
+            viewModel.insertPhone(new Phone(
+                    data.getStringExtra("producer"),
+                    data.getStringExtra("model"),
+                    data.getStringExtra("version"),
+                    data.getStringExtra("website")
+            ));
+        }
     }
+
 }

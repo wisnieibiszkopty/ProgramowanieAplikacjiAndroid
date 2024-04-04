@@ -9,6 +9,17 @@
     <string name="grades_input">Podaj liczbę ocen [5–15]</string>
     <string name="grade_average">Oblicz średnią</string>
     <string name="delete_all">Delete all</string>
+    <string name="phone_producer">Producer</string>
+    <string name="phone_model">Model</string>
+    <string name="phone_version">Version</string>
+    <string name="phone_website">Website</string>
+    <string name="enter_producer">Enter producer</string>
+    <string name="enter_model">Enter model</string>
+    <string name="enter_version">Enter version</string>
+    <string name="enter_website">Enter website</string>
+    <string name="website_button">WEBSITE</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="save_button">Save</string>
     <string-array name="grades_list">
         <item>Android</item>
         <item>iOS</item>

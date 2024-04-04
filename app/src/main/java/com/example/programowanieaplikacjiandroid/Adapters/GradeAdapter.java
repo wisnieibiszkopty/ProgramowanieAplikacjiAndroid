@@ -59,8 +59,6 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeHolder>
         public GradeHolder(View view){
             super(view);
 
-            // TODO napraw layout
-
             name = view.findViewById(R.id.name);
 
             RadioGroup buttons = view.findViewById(R.id.buttons);

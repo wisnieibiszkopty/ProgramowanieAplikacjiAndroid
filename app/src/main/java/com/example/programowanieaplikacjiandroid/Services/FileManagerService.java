@@ -17,6 +17,8 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
+// Volley jednak nie nadaje się do pobierania plików
+
 public class FileManagerService extends Service {
     private static final String TAG = "FileManagerService";
     private String url = "";

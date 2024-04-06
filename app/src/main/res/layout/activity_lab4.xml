@@ -28,7 +28,8 @@
         android:paddingHorizontal="20sp">
         <TableRow>
             <TextView android:text="@string/address" />
-            <EditText android:text="@string/url"
+            <EditText android:id="@+id/url"
+                android:text="@string/url"
                 android:layout_span="2"/>
         </TableRow>
         <TableRow>

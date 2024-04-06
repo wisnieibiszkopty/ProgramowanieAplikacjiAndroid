@@ -33,7 +33,8 @@ public class Lab4Activity extends AppCompatActivity {
     }
 
     private void onDownloadInfo(){
-        DownloadInfo info = viewModel.downloadInfo();
+        String url = binding.url.getText().toString();
+        DownloadInfo info = viewModel.downloadInfo(getApplicationContext(), url);
         binding.filsize.setText(info.filesize());
         binding.filetype.setText(info.filetype());
     }

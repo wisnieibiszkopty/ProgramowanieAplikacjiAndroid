@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProgramowanieAplikacjiAndroid"
+        android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
         <activity
             android:name=".Activities.Lab4Activity"
@@ -44,6 +46,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".Services.FileManagerService"
+            android:exported="false"/>
     </application>
 
 </manifest>

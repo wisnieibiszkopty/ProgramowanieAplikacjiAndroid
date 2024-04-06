@@ -22,7 +22,7 @@
     <string name="save_button">Save</string>
     <string name="text_validation_success">Wprowadzono poprawne dane</string>
     <string name="address">Adres</string>
-    <string name="url">httpfddfs</string>
+    <string name="url">http://10.0.2.2/api/simple/data</string>
     <string name="filesize">Rozmiar pliku</string>
     <string name="typ_pliku">Typ pliku</string>
     <string name="filetype">Typ pliku</string>

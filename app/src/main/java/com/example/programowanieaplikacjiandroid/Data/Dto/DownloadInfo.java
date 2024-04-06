@@ -2,5 +2,5 @@ package com.example.programowanieaplikacjiandroid.Data.Dto;
 
 public record DownloadInfo(
    String filetype,
-   int filesize
+   String filesize
 ) {}

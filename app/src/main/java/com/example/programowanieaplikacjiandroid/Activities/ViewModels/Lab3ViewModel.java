@@ -11,10 +11,6 @@ import com.example.programowanieaplikacjiandroid.Data.Repositories.PhoneReposito
 
 import java.util.List;
 
-// TODO
-// walidacja pola tekstowego
-// kasowanie pojedyńczych rekordów, użyc ItemTouchHelper
-
 public class Lab3ViewModel extends AndroidViewModel {
     private final PhoneRepository repository;
     private final LiveData<List<Phone>> phones;

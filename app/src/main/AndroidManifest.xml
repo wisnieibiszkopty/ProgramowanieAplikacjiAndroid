@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,9 +16,13 @@
         android:theme="@style/Theme.ProgramowanieAplikacjiAndroid"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".Activities.Lab4Activity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity"/>
+        <activity
             android:name=".Activities.InsertPhoneActivity"
             android:exported="false"
-            android:parentActivityName=".Activities.Lab3Activity"/>
+            android:parentActivityName=".Activities.Lab3Activity" />
         <activity
             android:name=".Activities.Lab3Activity"
             android:exported="false"

@@ -21,6 +21,14 @@
     <string name="cancel_button">Cancel</string>
     <string name="save_button">Save</string>
     <string name="text_validation_success">Wprowadzono poprawne dane</string>
+    <string name="address">Adres</string>
+    <string name="url">httpfddfs</string>
+    <string name="filesize">Rozmiar pliku</string>
+    <string name="typ_pliku">Typ pliku</string>
+    <string name="filetype">Typ pliku</string>
+    <string name="downloaded_bytes">Pobrane bajty</string>
+    <string name="get_info">Pobierz informacje</string>
+    <string name="downloadFile">Pobierz plik</string>
     <string-array name="grades_list">
         <item>Android</item>
         <item>iOS</item>

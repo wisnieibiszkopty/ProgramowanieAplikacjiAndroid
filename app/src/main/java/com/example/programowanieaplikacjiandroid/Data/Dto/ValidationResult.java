@@ -1,4 +1,4 @@
-package com.example.programowanieaplikacjiandroid.Data.Models;
+package com.example.programowanieaplikacjiandroid.Data.Dto;
 
 public record ValidationResult(
         boolean success,

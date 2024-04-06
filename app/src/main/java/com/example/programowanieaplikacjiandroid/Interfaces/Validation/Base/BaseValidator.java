@@ -1,6 +1,6 @@
 package com.example.programowanieaplikacjiandroid.Interfaces.Validation.Base;
 
-import com.example.programowanieaplikacjiandroid.Data.Models.ValidationResult;
+import com.example.programowanieaplikacjiandroid.Data.Dto.ValidationResult;
 
 public abstract class BaseValidator implements IValidator {
 

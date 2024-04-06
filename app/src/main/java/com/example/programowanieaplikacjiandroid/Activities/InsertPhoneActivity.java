@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.programowanieaplikacjiandroid.Data.Models.Phone;
-import com.example.programowanieaplikacjiandroid.Data.Models.ValidationResult;
-import com.example.programowanieaplikacjiandroid.Interfaces.Validation.EmptyValidatorRule;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityInsertPhoneBinding;
 
@@ -64,12 +62,32 @@ public class InsertPhoneActivity extends AppCompatActivity {
     }
 
     private void onSave(){
-        Bundle bundle = new Bundle();
+        isValid = true;
 
-        // don't work yet
-        //validate();
+        // validation
+        if(binding.producer.getText().toString().isEmpty()){
+            isValid = false;
+            binding.producer.setError("Producer cannot be empty!");
+        }
+
+        if(binding.model.getText().toString().isEmpty()){
+            isValid = false;
+            binding.model.setError("Model cannot be empty!");
+        }
+
+        if(binding.version.getText().toString().isEmpty()){
+            isValid = false;
+            binding.version.setError("Version cannot be empty!");
+        }
+
+        if(binding.website.getText().toString().isEmpty()){
+            isValid = false;
+            binding.website.setError("Website cannot be empty!");
+        }
+
 
         if(isValid){
+            Bundle bundle = new Bundle();
             if(editing){
                 editedPhone.setProducer(binding.producer.getText().toString());
                 editedPhone.setModel(binding.model.getText().toString());
@@ -92,39 +110,6 @@ public class InsertPhoneActivity extends AppCompatActivity {
             setResult(RESULT_OK, intent);
             finish();
         }
-    }
-
-    // refactor
-    private void validate(){
-        EmptyValidatorRule validator;
-        ValidationResult result;
-
-        validator = new EmptyValidatorRule(binding.producer);
-        result = validator.validate();
-        if(!result.success()){
-            binding.producer.setError(result.message());
-            return;
-        }
-        validator.text = binding.model;
-        result = validator.validate();
-        if(!result.success()){
-            binding.model.setError(result.message());
-            return;
-        }
-        validator.text = binding.version;
-        result = validator.validate();
-        if(!result.success()){
-            binding.model.setError(result.message());
-            return;
-        }
-        validator.text = binding.website;
-        result = validator.validate();
-        if(!result.success()){
-            binding.model.setError(result.message());
-            return;
-        }
-
-        isValid = true;
     }
 
 }

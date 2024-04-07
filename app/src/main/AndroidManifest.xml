@@ -47,7 +47,12 @@
             </intent-filter>
         </activity>
         <service android:name=".Services.FileManagerService"
-            android:exported="false"/>
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.example.ACTION_SEND_DOWNLOAD_INFO" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

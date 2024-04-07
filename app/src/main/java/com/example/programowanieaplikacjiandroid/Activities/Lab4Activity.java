@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.programowanieaplikacjiandroid.Activities.ViewModels.Lab4ViewModel;
 import com.example.programowanieaplikacjiandroid.Data.Dto.DownloadInfo;
+import com.example.programowanieaplikacjiandroid.Services.FileManagerService;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityLab4Binding;
 
 import java.net.URL;
@@ -56,6 +58,7 @@ public class Lab4Activity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(Lab4ViewModel.class);
 
         binding.getInfo.setOnClickListener(v -> onDownloadInfo());
+        binding.downloadFile.setOnClickListener(v -> downloadFile());
     }
 
     @Override
@@ -91,6 +94,14 @@ public class Lab4Activity extends AppCompatActivity {
                 binding.filsize.setText(result.filesize());
                 binding.filetype.setText(result.filetype());
         }));
+    }
+
+    private void downloadFile(){
+        Intent serviceIntent = new Intent(this, FileManagerService.class);
+        serviceIntent.putExtra("url", binding.url.getText().toString());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(serviceIntent);
+        }
     }
 
 }

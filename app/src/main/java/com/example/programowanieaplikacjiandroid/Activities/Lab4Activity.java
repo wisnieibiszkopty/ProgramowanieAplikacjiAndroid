@@ -31,14 +31,6 @@ public class Lab4Activity extends AppCompatActivity {
     private ActivityLab4Binding binding;
     private Lab4ViewModel viewModel;
 
-    private BroadcastReceiver messageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            binding.filetype.setText(intent.getStringExtra("type"));
-            binding.filsize.setText(intent.getStringExtra("length"));
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +43,6 @@ public class Lab4Activity extends AppCompatActivity {
         getSupportActionBar().setTitle("Laboratorium 4");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(
-                messageReceiver, new IntentFilter("com.example.ACTION_SEND_DOWNLOAD_INFO")
-        );
-
         viewModel = new ViewModelProvider(this).get(Lab4ViewModel.class);
 
         binding.getInfo.setOnClickListener(v -> onDownloadInfo());
@@ -63,7 +51,6 @@ public class Lab4Activity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReceiver);
         super.onDestroy();
     }
 
@@ -100,7 +87,7 @@ public class Lab4Activity extends AppCompatActivity {
         Intent serviceIntent = new Intent(this, FileManagerService.class);
         serviceIntent.putExtra("url", binding.url.getText().toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(serviceIntent);
+            startService(serviceIntent);
         }
     }
 

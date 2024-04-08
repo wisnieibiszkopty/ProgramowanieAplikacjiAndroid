@@ -16,22 +16,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.programowanieaplikacjiandroid.Activities.Lab4Activity;
+import com.example.programowanieaplikacjiandroid.R;
 
-import org.json.JSONObject;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -53,7 +42,6 @@ public class FileManagerService extends Service {
     private Handler serviceThreadHandler;
     private Handler mainThreadHandler;
 
-    private RequestQueue queue;
 
     @Override
     public void onCreate(){
@@ -75,18 +63,26 @@ public class FileManagerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
-
-        // for testing
-        try {
-            TimeUnit.SECONDS.sleep(30);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-
-        stopSelf();
-        return START_NOT_STICKY;
+        Log.d(TAG, "start downloadFIle");
+        // Nie działa
+        startForeground(NOTIFICATION_ID, getNotification(0));
+        Log.d(TAG, "start foregournd");
+        serviceThreadHandler.post(() -> {
+            for (int time = 0; time <= 30; time++) {
+                Log.d(TAG, "startTimer()/lambda - current time: " + time);
+                updateNotification(time);
+                sendBroadcast(time);
+                downloadFile();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            Log.d(TAG, "Stoped service");
+            mainThreadHandler.post(this::stopSelf);
+        });
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Nullable
@@ -97,19 +93,39 @@ public class FileManagerService extends Service {
 
     @Override
     public void onDestroy() {
-        if(queue != null){
-            queue.stop();
-        }
-
         Toast.makeText(this, "Serwis zakończył działanie", Toast.LENGTH_SHORT).show();
     }
 
+    private void downloadFile(){
+            
+    }
+
+    private void sendBroadcast(int time){
+        Intent broadcastIntent = new Intent(ACTION_BROADCAST);
+        broadcastIntent.putExtra(TIME_EXTRA, time);
+        sendBroadcast(broadcastIntent);
+        Log.d(TAG, "Broadcast");
+    }
+
     private Notification getNotification(int time){
-        return null;
+        Log.d(TAG, "start getNotification");
+        Intent intent = new Intent();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(
+                this, NOTIFICATION_CHANNEL_ID
+        ).setContentTitle("Tytuł")
+                .setContentText("tekst")
+                .setOngoing(true)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setTicker("Notification ticker")
+                .setWhen(System.currentTimeMillis());
+
+        return builder.build();
     }
 
     private void updateNotification(int time){
-
+        Log.d(TAG, "start update notifitaioc");
+        notificationManager.notify(NOTIFICATION_ID, getNotification(time));
     }
 
 //    private void getHttpInfo(){

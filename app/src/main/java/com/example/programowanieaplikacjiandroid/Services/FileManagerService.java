@@ -155,7 +155,7 @@ public class FileManagerService extends Service {
         }
     }
 
-    private void sendBroadcast(){
+    private void sendBroadcast(int progress, int filesize, String status){
         Intent broadcastIntent = new Intent(ACTION_BROADCAST);
         //broadcastIntent.putExtra(TIME_EXTRA, time);
         sendBroadcast(broadcastIntent);

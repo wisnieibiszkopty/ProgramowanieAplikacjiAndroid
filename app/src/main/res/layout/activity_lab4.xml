@@ -19,54 +19,65 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        android:paddingHorizontal="20sp"
         android:shrinkColumns="*"
         android:stretchColumns="2"
-        android:paddingHorizontal="20sp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
+
         <TableRow>
             <TextView android:text="@string/address" />
-            <EditText android:id="@+id/url"
-                android:text="@string/url"
-                android:layout_span="2"/>
+            <EditText
+                android:id="@+id/url"
+                android:layout_span="2"
+                android:text="@string/url" />
         </TableRow>
         <TableRow>
-            <Button android:id="@+id/getInfo"
-                android:text="@string/get_info"
+            <Button
+                android:id="@+id/getInfo"
                 android:layout_span="3"
-                />
+                android:text="@string/get_info" />
         </TableRow>
         <TableRow>
-            <TextView android:text="@string/filesize"/>
-            <TextView android:id="@+id/filsize"
+            <TextView android:text="@string/filesize" />
+            <TextView
+                android:id="@+id/filsize"
                 android:text="0"
-                android:textStyle="bold"
                 android:textSize="24sp"
-                />
+                android:textStyle="bold" />
         </TableRow>
         <TableRow>
-            <TextView android:text="@string/filetype"/>
-            <TextView android:id="@+id/filetype"
+            <TextView android:text="@string/filetype" />
+            <TextView
+                android:id="@+id/filetype"
                 android:text="0"
-                android:textStyle="bold"
                 android:textSize="24sp"
-                />
+                android:textStyle="bold" />
         </TableRow>
         <TableRow>
-            <Button android:id="@+id/downloadFile"
-                android:text="@string/downloadFile"
+            <Button
+                android:id="@+id/downloadFile"
                 android:layout_span="3"
-                />
+                android:text="@string/downloadFile" />
         </TableRow>
         <TableRow>
-            <TextView android:text="@string/downloaded_bytes"/>
-            <TextView android:id="@+id/downloadedBytes"
+            <TextView android:text="@string/downloaded_bytes" />
+            <TextView
+                android:id="@+id/downloadedBytes"
                 android:text="0"
-                android:textStyle="bold"
                 android:textSize="24sp"
-                />
+                android:textStyle="bold" />
+        </TableRow>
+        <TableRow>
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_span="3"/>
         </TableRow>
     </TableLayout>
 

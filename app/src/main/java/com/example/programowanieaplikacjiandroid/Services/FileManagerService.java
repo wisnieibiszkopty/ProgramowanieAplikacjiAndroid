@@ -21,6 +21,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.programowanieaplikacjiandroid.Activities.Lab4Activity;
+import com.example.programowanieaplikacjiandroid.Data.Dto.ProgressInfo;
 import com.example.programowanieaplikacjiandroid.R;
 
 import java.io.DataInputStream;
@@ -80,6 +81,7 @@ public class FileManagerService extends Service {
             //updateNotification();
             //sendBroadcast();
             try{
+                Log.d("URL SERVICE", intent.getStringExtra("url"));
                 downloadFile(intent.getStringExtra("url"));
             } catch (IOException e){
                 e.printStackTrace();
@@ -122,7 +124,7 @@ public class FileManagerService extends Service {
             conn.connect();
             inputStream = new DataInputStream(conn.getInputStream());
             outputStream = new FileOutputStream(outputFile.getPath());
-            byte buffer[] = new byte[1024];
+            byte[] buffer = new byte[1024];
             int bytesRead;
             fileSize = conn.getContentLength();
             int step = 1;
@@ -132,15 +134,15 @@ public class FileManagerService extends Service {
                     updateNotification(step*10);
                     Log.i(TAG, "Postęp pobierania: " + step*10 + "/" + 100);
                     step++;
-                    //sendProgressBroadcast(progress, fileSize, ProgressStatus.RUNNING);
+                    sendBroadcast(progress, fileSize, "Running");
                 }
                 outputStream.write(buffer, 0, bytesRead);
             }
             Log.i("HttpConnectionService", "Pobieranie zakończone");
-            //downloadNotificationService.setAsCompleted();
-            //sendProgressBroadcast(progress, fileSize, ProgressStatus.COMPLETED);
+            updateNotification(100);
+            sendBroadcast(progress, fileSize, "Completed");
         } catch (IOException e) {
-            //sendProgressBroadcast(progress, fileSize, ProgressStatus.ERROR);
+            sendBroadcast(progress, fileSize, "Error");
             throw new RuntimeException(e);
         } finally {
             if(inputStream != null) {
@@ -157,7 +159,8 @@ public class FileManagerService extends Service {
 
     private void sendBroadcast(int progress, int filesize, String status){
         Intent broadcastIntent = new Intent(ACTION_BROADCAST);
-        //broadcastIntent.putExtra(TIME_EXTRA, time);
+        ProgressInfo info = new ProgressInfo(progress, filesize, status);
+        broadcastIntent.putExtra("progress", info);
         sendBroadcast(broadcastIntent);
         Log.d(TAG, "Broadcast");
     }

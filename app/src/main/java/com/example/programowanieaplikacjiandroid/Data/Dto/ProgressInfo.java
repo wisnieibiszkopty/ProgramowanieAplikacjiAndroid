@@ -47,6 +47,15 @@ public class ProgressInfo implements Parcelable {
     }
 
     @Override
+    public String toString() {
+        return "ProgressInfo{" +
+                "downloadedBytes=" + downloadedBytes +
+                ", size=" + size +
+                ", status='" + status + '\'' +
+                '}';
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

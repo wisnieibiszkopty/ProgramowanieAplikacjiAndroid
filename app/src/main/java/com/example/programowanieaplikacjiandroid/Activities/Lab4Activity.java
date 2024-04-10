@@ -1,9 +1,6 @@
 package com.example.programowanieaplikacjiandroid.Activities;
 
 import android.Manifest;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -11,37 +8,47 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.example.programowanieaplikacjiandroid.Activities.ViewModels.Lab4ViewModel;
 import com.example.programowanieaplikacjiandroid.Data.Dto.DownloadInfo;
-import com.example.programowanieaplikacjiandroid.R;
+import com.example.programowanieaplikacjiandroid.Data.Dto.ProgressInfo;
 import com.example.programowanieaplikacjiandroid.Services.FileManagerService;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityLab4Binding;
 
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.net.ssl.HttpsURLConnection;
 
+
+// nie wiem czemu nie przeniosłem logiki do viewModel
+// ale tu tyle nowości jest że nie wiedziałbym pewnie jak to połączyć
+
+// TODO ask for external storage
+
 public class Lab4Activity extends AppCompatActivity {
 
     private ActivityLab4Binding binding;
-    private Lab4ViewModel viewModel;
+    private final FileProgressReceiver fileProgressReceiver = new FileProgressReceiver();
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(fileProgressReceiver, new IntentFilter(FileManagerService.ACTION_BROADCAST));
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +62,14 @@ public class Lab4Activity extends AppCompatActivity {
         getSupportActionBar().setTitle("Laboratorium 4");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        viewModel = new ViewModelProvider(this).get(Lab4ViewModel.class);
-
         binding.getInfo.setOnClickListener(v -> onDownloadInfo());
         binding.downloadFile.setOnClickListener(v -> downloadFile());
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(fileProgressReceiver);
+        super.onStop();
     }
 
     @Override
@@ -105,6 +116,7 @@ public class Lab4Activity extends AppCompatActivity {
         }
 
         Intent serviceIntent = new Intent(this, FileManagerService.class);
+        Log.d("URL", binding.url.getText().toString());
         serviceIntent.putExtra("url", binding.url.getText().toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startService(serviceIntent);
@@ -112,6 +124,7 @@ public class Lab4Activity extends AppCompatActivity {
 
     }
 
+    // asking user for permissions
     private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult
         (new ActivityResultContracts.RequestPermission(), isGranted -> {
             if(isGranted){
@@ -121,4 +134,39 @@ public class Lab4Activity extends AppCompatActivity {
             }
         });
 
+    class FileProgressReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ProgressInfo progressInfo = intent.getParcelableExtra("progress");
+            Log.i("PROGRESS INFO", progressInfo.toString());
+
+            binding.downloadedBytes.setText(String.valueOf(progressInfo.getDownloadedBytes()));
+
+            if(progressInfo.getStatus().equals("Running")){
+                binding.downloadFile.setText("Pobieranie...");
+            } else {
+                binding.downloadFile.setText("Pobierz plik");
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putString("filesize", binding.filsize.getText().toString());
+        outState.putString("filetype", binding.filetype.getText().toString());
+        outState.putString("url", binding.url.getText().toString());
+        outState.putString("downloadedBytes", binding.downloadedBytes.getText().toString());
+
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle state) {
+        binding.filsize.setText(state.getString("filesize"));
+        binding.filetype.setText(state.getString("filetype"));
+        binding.url.setText(state.getString("url"));
+        binding.downloadedBytes.setText(state.getString("downloadedBytes"));
+
+        super.onRestoreInstanceState(state);
+    }
 }

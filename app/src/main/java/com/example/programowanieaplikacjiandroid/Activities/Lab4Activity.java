@@ -115,6 +115,14 @@ public class Lab4Activity extends AppCompatActivity {
             }
         }
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Permission already granted", Toast.LENGTH_LONG).show();
+        } else {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+        }
+
         Intent serviceIntent = new Intent(this, FileManagerService.class);
         Log.d("URL", binding.url.getText().toString());
         serviceIntent.putExtra("url", binding.url.getText().toString());
@@ -127,11 +135,11 @@ public class Lab4Activity extends AppCompatActivity {
     // asking user for permissions
     private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult
         (new ActivityResultContracts.RequestPermission(), isGranted -> {
-            if(isGranted){
-                Toast.makeText(this, "Permission granted", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show();
-            }
+//            if(isGranted){
+//                Toast.makeText(this, "Permission granted", Toast.LENGTH_LONG).show();
+//            } else {
+//                Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show();
+//            }
         });
 
     class FileProgressReceiver extends BroadcastReceiver {
@@ -141,6 +149,9 @@ public class Lab4Activity extends AppCompatActivity {
             Log.i("PROGRESS INFO", progressInfo.toString());
 
             binding.downloadedBytes.setText(String.valueOf(progressInfo.getDownloadedBytes()));
+
+            binding.progressBar.setMax(progressInfo.getSize());
+            binding.progressBar.setProgress(progressInfo.getDownloadedBytes(), true);
 
             if(progressInfo.getStatus().equals("Running")){
                 binding.downloadFile.setText("Pobieranie...");

@@ -11,7 +11,12 @@ import com.example.programowanieaplikacjiandroid.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final Class[] acitvities = {Lab1Activity.class, Lab3Activity.class, Lab4Activity.class};
+    private final Class[] acitvities = {
+            Lab1Activity.class,
+            Lab3Activity.class,
+            Lab4Activity.class,
+            Lab5Activity.class
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         lab3Button.setOnClickListener(v -> startLab(1));
         Button lab4Button = findViewById(R.id.lab4);
         lab4Button.setOnClickListener(v -> startLab(2));
+        Button lab5Button = findViewById(R.id.lab5);
+        lab5Button.setOnClickListener(v -> startLab(3));
     }
 
     private void startLab(int n){

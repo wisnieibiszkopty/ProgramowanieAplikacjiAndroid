@@ -29,6 +29,9 @@
     <string name="downloaded_bytes">Pobrane bajty</string>
     <string name="get_info">Pobierz informacje</string>
     <string name="downloadFile">Pobierz plik</string>
+    <string name="save_image">Save image</string>
+    <string name="show_images">Show images</string>
+    <string name="x">X</string>
     <string-array name="grades_list">
         <item>Android</item>
         <item>iOS</item>

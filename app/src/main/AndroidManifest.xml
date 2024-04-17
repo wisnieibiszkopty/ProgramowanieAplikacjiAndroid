@@ -2,12 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-    tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
     <application
         android:allowBackup="true"
@@ -22,9 +23,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="tiramisu">
         <activity
+            android:name=".Activities.Lab5Activity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.Lab4Activity"
             android:exported="false"
-            android:parentActivityName=".Activities.MainActivity"/>
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
             android:name=".Activities.InsertPhoneActivity"
             android:exported="false"
@@ -46,15 +50,16 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".Services.FileManagerService"
-            android:foregroundServiceType="dataSync"
-            android:enabled="true"
-            android:exported="true">
-        </service>
 
+        <service
+            android:name=".Services.FileManagerService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="dataSync"></service>
     </application>
 
 </manifest>

@@ -94,7 +94,6 @@ public class Lab3Activity extends AppCompatActivity implements PhoneAdapter.OnIt
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        // don't work 😒
         if (item.getItemId() == R.id.delete_all_phones) {
             viewModel.deleteAllPhones();
             return true;

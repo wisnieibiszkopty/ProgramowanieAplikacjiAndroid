@@ -1,40 +1,22 @@
 package com.example.programowanieaplikacjiandroid.Fragments;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.example.programowanieaplikacjiandroid.Activities.Lab5Activity;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.Fragments.placeholder.PaintingContent;
 
 import java.util.List;
 
-/**
- * A fragment representing a list of Items.
- */
 public class PaintingFragmentList extends Fragment {
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
-    public PaintingFragmentList() {
-    }
+    public PaintingFragmentList() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

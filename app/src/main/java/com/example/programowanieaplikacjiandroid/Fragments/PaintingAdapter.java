@@ -10,16 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.programowanieaplikacjiandroid.Adapters.PhoneAdapter;
-import com.example.programowanieaplikacjiandroid.Fragments.placeholder.PaintingContent;
 import com.example.programowanieaplikacjiandroid.Fragments.placeholder.PaintingContent.PaintingItem;
 import com.example.programowanieaplikacjiandroid.databinding.FragmentItemBinding;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link PaintingItem}.
- */
 public class PaintingAdapter extends RecyclerView.Adapter<PaintingAdapter.PaintingAdapterViewHolder> {
 
     Activity activity;

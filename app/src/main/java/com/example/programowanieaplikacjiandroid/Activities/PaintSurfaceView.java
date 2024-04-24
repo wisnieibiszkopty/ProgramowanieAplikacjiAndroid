@@ -1,7 +1,6 @@
 package com.example.programowanieaplikacjiandroid.Activities;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -17,21 +16,15 @@ import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.programowanieaplikacjiandroid.Activities.Lab5Activity;
 import com.example.programowanieaplikacjiandroid.Fragments.placeholder.PaintingContent;
 import com.example.programowanieaplikacjiandroid.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.UUID;
 
 public class PaintSurfaceView  extends SurfaceView implements SurfaceHolder.Callback {
     private static final int cirRad = 20;

@@ -49,4 +49,44 @@
         <item>Sieci komputerowe</item>
         <item>Grafika komputerowa</item>
     </string-array>
+    <string name="menuButton1">Oceny</string>
+    <string name="menuButton2">Telefony</string>
+    <string name="menuButton3">Pobieranie</string>
+    <string name="menuButton4">Rysowanie</string>
+    <string name="menuTittle">Android Laboratorium</string>
+    <string name="lab1Activity">Laboratorium 1</string>
+    <string name="formName">Imię:</string>
+    <string name="fromNameHint">wprowadz imie</string>
+    <string name="fromGradesAmountHint">wprowadz liczbe ocen (5–15)</string>
+    <string name="formSurname">Nazwisko:</string>
+    <string name="formSurnameHint">wprowadz nazwisko</string>
+    <string name="formGradesAmount">Liczba ocen:</string>
+    <string name="gradesBigCap">OCENY</string>
+    <string name="gradeText">Ocena:</string>
+    <string name="lab2_2tittle">SPIS PRZEDMIOTÓW Z OCENAMI</string>
+    <string name="deletePhones">Usuń wszystkie</string>
+    <string name="addPhone">Dodaj telefon</string>
+    <string name="phoneBrand">Marka:</string>
+    <string name="insertPhoneBrand">Podaj marke telefonu</string>
+    <string name="insertPhoneModel">Podaj model telefonu</string>
+    <string name="phoneModel">Model:</string>
+    <string name="insertPhoneOSversion">Podaj wersję systemu</string>
+    <string name="phoneOSversion">Wersja Androida:</string>
+    <string name="phoneWebsite">Strona WWW:</string>
+    <string name="insertPhoneWebsite">Podaj stronę www</string>
+    <string name="cancel">Anuluj</string>
+    <string name="average">ŚREDNIA</string>
+    <string name="downloadedBytes">Pobrano:</string>
+    <string name="downloadButton">POBIERZ PLIK</string>
+    <string name="fileType">Typ pliku:</string>
+    <string name="fileSize">Rozmiar pliku:</string>
+    <string name="downloadFileInfoButton">POBIERZ INFORMACJE</string>
+    <string name="fileURLhint">podaj adres do pliku</string>
+    <string name="fileURL">https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.36.tar.xz</string>
+    <string name="downloadingEnded">Zakończono pobieranie</string>
+    <string name="cancelDownload">Anuluj pobieranie</string>
+    <string name="invalidURL">Niepoprawny adres</string>
+    <string name="save">ZAPISZ</string>
+    <string name="gallery">GALERIA</string>
+    <string name="imgDescription">drawing from Lab5</string>
 </resources>

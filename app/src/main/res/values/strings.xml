@@ -89,4 +89,8 @@
     <string name="save">ZAPISZ</string>
     <string name="gallery">GALERIA</string>
     <string name="imgDescription">drawing from Lab5</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nazwa_pliku">Nazwa pliku</string>
+    <string name="zapisz_obraz">Zapisz obraz</string>
 </resources>

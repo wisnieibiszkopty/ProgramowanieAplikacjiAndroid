@@ -27,7 +27,7 @@
         <com.example.programowanieaplikacjiandroid.Activities.PaintSurfaceView
             android:id="@+id/paintSurfaceView"
             android:layout_width="match_parent"
-            android:layout_height="600dp"
+            android:layout_height="550dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/lab5submain"
@@ -44,6 +44,7 @@
         />
 
     <LinearLayout
+        android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -55,7 +56,8 @@
             android:id="@+id/button_red"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/red" />
+            android:backgroundTint="@color/red"
+            />
 
         <Button
             android:id="@+id/button_yellow"

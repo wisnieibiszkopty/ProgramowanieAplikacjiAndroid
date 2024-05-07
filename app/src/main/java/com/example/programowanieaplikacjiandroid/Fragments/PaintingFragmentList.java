@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.programowanieaplikacjiandroid.Adapters.PaintingAdapter;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.Fragments.placeholder.PaintingContent;
 
@@ -24,25 +25,29 @@ public class PaintingFragmentList extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-//        wczytanie listy obrazkow
-        List<PaintingContent.PaintingItem> paintingItemList = PaintingContent.getPaintingItems();
-//        ustawienie adaptera
-        PaintingAdapter paintingAdapter = new PaintingAdapter(paintingItemList, getActivity());
-        RecyclerView recyclerView = view.findViewById(R.id.paintingList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(paintingAdapter);
+    public View onCreateView(
+        LayoutInflater inflater,
+        ViewGroup container,
+        Bundle savedInstanceState) {
 
-        paintingAdapter.setItemClickListener(position -> {
-            PaintingFragmentDetails fragmentList = PaintingFragmentDetails.newInstance(position);
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.main, fragmentList)
-                    .addToBackStack(null)
-                    .commit();
-        });
+            View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+            List<PaintingContent.PaintingItem> paintingItemList = PaintingContent.getPaintingItems();
 
-        return view;
+            PaintingAdapter paintingAdapter = new PaintingAdapter(paintingItemList, getActivity());
+            RecyclerView recyclerView = view.findViewById(R.id.paintingList);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(paintingAdapter);
+
+            paintingAdapter.setItemClickListener(position -> getDetails(position));
+
+            return view;
+    }
+
+    private void getDetails(int position){
+        PaintingFragmentDetails fragmentList = PaintingFragmentDetails.newInstance(position);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main, fragmentList)
+                .addToBackStack(null)
+                .commit();
     }
 }

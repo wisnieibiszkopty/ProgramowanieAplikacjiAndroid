@@ -27,11 +27,13 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class PaintSurfaceView  extends SurfaceView implements SurfaceHolder.Callback {
-    private static final int cirRad = 20;
-    private int mColor = R.color.blue;
-    private Paint mPaint, dotPaint;
-    private Path mPath, dotPath;
-    public ArrayList<Pair<Path,Paint>> mPaths;
+    private static final int cirRad = 24;
+    private int color = R.color.red;
+    private Paint paint;
+    private Paint dotPaint;
+    private Path path;
+    private Path dotPath;
+    public ArrayList<Pair<Path,Paint>> paths;
 
     public PaintSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -42,16 +44,17 @@ public class PaintSurfaceView  extends SurfaceView implements SurfaceHolder.Call
         setZOrderOnTop(true);
         getHolder().setFormat(PixelFormat.TRANSPARENT);
         getHolder().addCallback(this);
-        mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
-        mPaint.setColor(getResources().getColor(mColor));
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setStrokeWidth(15);
+        
+        paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
+        paint.setColor(getResources().getColor(color));
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeWidth(18);
 
-        dotPaint = new Paint(mPaint);
+        dotPaint = new Paint(paint);
         dotPaint.setStyle(Paint.Style.FILL);
 
     }
@@ -59,28 +62,28 @@ public class PaintSurfaceView  extends SurfaceView implements SurfaceHolder.Call
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
-        mPath = new Path();
+        path = new Path();
         dotPath = new Path();
-        mPaths = new ArrayList<>();
+        paths = new ArrayList<>();
 
         setOnTouchListener((v, event) -> {
             synchronized (getHolder()){
                 float X = event.getX();
                 float Y = event.getY();
-                mPaint.setColor(getResources().getColor(mColor));
-                dotPaint.setColor(getResources().getColor(mColor));
+                paint.setColor(getResources().getColor(color));
+                dotPaint.setColor(getResources().getColor(color));
                 switch (event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
-                        mPath.reset();
-                        mPath.moveTo(X, Y);
+                        path.reset();
+                        path.moveTo(X, Y);
                         makeDot(X,Y);
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        mPath.lineTo(X, Y);
+                        path.lineTo(X, Y);
                         break;
                     case MotionEvent.ACTION_UP:
                         makeDot(X,Y);
-                        mPaths.add(new Pair<>(new Path(mPath), new Paint(mPaint)));
+                        paths.add(new Pair<>(new Path(path), new Paint(paint)));
                         break;
                 }
                 drawCanva(null);
@@ -90,37 +93,29 @@ public class PaintSurfaceView  extends SurfaceView implements SurfaceHolder.Call
 
     }
 
-    /**
-     * Tworzy kropke o promieniu cirRad
-     * @param X,Y wspołrzedne
-     */
     private void makeDot(float X, float Y) {
         dotPath.reset();
         dotPath.moveTo(X,Y);
         dotPath.addCircle(X,Y,cirRad,Path.Direction.CW);
-        mPaths.add(new Pair<>(new Path(dotPath),new Paint(dotPaint)));
+        paths.add(new Pair<>(new Path(dotPath),new Paint(dotPaint)));
     }
 
     public void drawCanva(Canvas temp){
         synchronized (getHolder()){
-//            jesli null to rysuje na canvie,
-//            jesli podano argument to przerysowuje z tablicy mPaths na nowa canve z bitmapa do zapisu (funkcja saveCanva())
             Canvas canvas = temp != null ? temp : getHolder().lockCanvas();
             if (canvas != null) {
                 try {
-//                    wyczysc ekran
+                    // clearing screen
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-//                    narysuj sciezki z tablicy na nowym ekranie
-                    for (Pair<Path,Paint> p : mPaths) {
+                    // drawing paths on new screen
+                    for (Pair<Path,Paint> p : paths) {
                         canvas.drawPath(p.first, p.second);
                     }
-//                    rysuj aktualną ścieżke
-                    if (!mPath.isEmpty()){
-                        canvas.drawPath(mPath,mPaint);
+                    // drawing current path
+                    if (!path.isEmpty()){
+                        canvas.drawPath(path,paint);
                     }
                 } finally {
-//                    potrzebne bo w przypadku przerysowywania na nowa canve (temp) nie jest potrzebne, a w przypadku rysowania
-//                    na holderze - wymagane
                     if (temp == null) {
                         getHolder().unlockCanvasAndPost(canvas);
                     }
@@ -138,24 +133,25 @@ public class PaintSurfaceView  extends SurfaceView implements SurfaceHolder.Call
     }
 
     public void setStrokeColor(int color) {
-        this.mColor = color;
+        this.color = color;
     }
 
-    /**
-     * Czysci canve - czyli rysuje na niej nowa warstwe oraz tablice ze scieżkami i "farbami"? mPaths
-     */
     public void clearCanva() {
         synchronized (getHolder()) {
             Canvas canvas = getHolder().lockCanvas();
             if (canvas != null) {
                 try {
                     canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-                    mPaths.clear();
+                    paths.clear();
                 } finally {
                     getHolder().unlockCanvasAndPost(canvas);
                 }
             }
         }
+    }
+
+    Pair<Integer, Integer> getSize(){
+        return new Pair<>(this.getWidth(), this.getHeight());
     }
 
     /**
@@ -169,12 +165,12 @@ public class PaintSurfaceView  extends SurfaceView implements SurfaceHolder.Call
         File dir = new File(imagesDir + File.separator + "LAB5");
         if (!dir.exists()){
             if (!dir.mkdirs()) {
-                Log.e("ERROR", "Problem przy tworzeniu katalogu " + dir);
+                Log.e("ERROR", dir.toString());
                 return false;
             }
         }
 //        dodanie folderu do sciezki zapisu pliku
-        imagesDir+=File.separator+"LAB5";
+        imagesDir += File.separator + "LAB5";
 
 //        co odpalenie apki bez zmiany parametru filename w Lab5Activity będą się nadpisywac, chyba spoko mniej kasowania śmeici z telefonu
         filename +=  "_" + PaintingContent.getPaintingItems().size() + ".jpg";

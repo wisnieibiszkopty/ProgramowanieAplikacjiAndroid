@@ -34,7 +34,10 @@ public class PaintingContent {
 
         @Override
         public String toString() {
-            return filename;
+            return "PaintingItem{" +
+                    "filename='" + filename + '\'' +
+                    ", filepath='" + filepath + '\'' +
+                    '}';
         }
     }
 }

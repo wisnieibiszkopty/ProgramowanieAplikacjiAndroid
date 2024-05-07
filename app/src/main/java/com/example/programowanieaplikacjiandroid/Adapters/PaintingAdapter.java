@@ -1,4 +1,4 @@
-package com.example.programowanieaplikacjiandroid.Fragments;
+package com.example.programowanieaplikacjiandroid.Adapters;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,8 +32,10 @@ public class PaintingAdapter extends RecyclerView.Adapter<PaintingAdapter.Painti
 
     @Override
     public PaintingAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        FragmentItemBinding binding = FragmentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new PaintingAdapterViewHolder(binding);  // Pass the adapter's listener here
+        FragmentItemBinding binding = FragmentItemBinding
+                .inflate(LayoutInflater
+                        .from(parent.getContext()), parent, false);
+        return new PaintingAdapterViewHolder(binding);
     }
 
     @Override

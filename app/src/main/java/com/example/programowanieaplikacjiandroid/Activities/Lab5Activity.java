@@ -3,6 +3,7 @@ package com.example.programowanieaplikacjiandroid.Activities;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.programowanieaplikacjiandroid.Fragments.PaintingFragmentList;
+import com.example.programowanieaplikacjiandroid.Fragments.SaveImageFragment;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityLab5Binding;;
 
@@ -70,6 +72,7 @@ public class Lab5Activity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         if (getSupportFragmentManager().getBackStackEntryCount()==1 ){
             binding.lab5submain.setVisibility(View.VISIBLE);
+            binding.buttons.setVisibility(View.VISIBLE);
             binding.paintSurfaceView.clearCanva();
         }
         if (getSupportFragmentManager().getBackStackEntryCount() > 0){
@@ -80,30 +83,45 @@ public class Lab5Activity extends AppCompatActivity {
     }
 
     private void saveImage(){
-        if (ContextCompat.checkSelfPermission
-                (this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions
-                    (this,
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            23);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 23);
         }
 
+        binding.lab5submain.setVisibility(View.INVISIBLE);
+        binding.buttons.setVisibility(View.INVISIBLE);
+
+        SaveImageFragment fragment = new SaveImageFragment();
+
+        // transferring drawing size into fragment
+//        Bundle args = new Bundle();
+//        Pair<Integer, Integer> size = paintSurfaceView.getSize();
+//        args.putInt("width", size.first);
+//        args.putInt("height", size.second);
+//        fragment.setArguments(args);
+//
+//        getSupportFragmentManager()
+//            .beginTransaction()
+//            .replace(R.id.main, fragment)
+//            .addToBackStack("save_image")
+//            .commit();
+
         if (paintSurfaceView.saveCanva("rysunek")) {
-            Toast.makeText(this, "Zapisano rysunek", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Drawing saved", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Nie udało sie zapisac", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error during saving drawing", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void showImages(){
         paintSurfaceView.clearCanva();
         binding.lab5submain.setVisibility(View.INVISIBLE);
+        binding.buttons.setVisibility(View.INVISIBLE);
+
         PaintingFragmentList fragmentList = new PaintingFragmentList();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main, fragmentList)
-                .addToBackStack("gallery")
-                .commit();
+            .replace(R.id.main, fragmentList)
+            .addToBackStack("gallery")
+            .commit();
     }
 
 }

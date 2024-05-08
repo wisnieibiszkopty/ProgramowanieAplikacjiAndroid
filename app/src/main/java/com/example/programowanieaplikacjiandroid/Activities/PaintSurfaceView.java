@@ -154,14 +154,8 @@ public class PaintSurfaceView  extends SurfaceView implements SurfaceHolder.Call
         return new Pair<>(this.getWidth(), this.getHeight());
     }
 
-    /**
-     * Zapisuje canve do pliku w formacie JPEG w katalogu Pictures urządzenia
-     * @param filename nazwa pliku jak zostanie zapisana canva, funkcja dodaje na koniec ".jpg"
-     * @return czy zapisywanie sie powiodło
-     */
     public boolean saveCanva(String filename){
         String imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
-//        robimy folder LAB5 na rysunki
         File dir = new File(imagesDir + File.separator + "LAB5");
         if (!dir.exists()){
             if (!dir.mkdirs()) {
@@ -169,12 +163,9 @@ public class PaintSurfaceView  extends SurfaceView implements SurfaceHolder.Call
                 return false;
             }
         }
-//        dodanie folderu do sciezki zapisu pliku
         imagesDir += File.separator + "LAB5";
 
-//        co odpalenie apki bez zmiany parametru filename w Lab5Activity będą się nadpisywac, chyba spoko mniej kasowania śmeici z telefonu
         filename +=  "_" + PaintingContent.getPaintingItems().size() + ".jpg";
-//        filename +=  "rysunek_" + UUID.randomUUID().toString() + ".jpg";
         Bitmap bitmap = Bitmap.createBitmap(this.getWidth(), this.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas temp = new Canvas(bitmap);
         drawCanva(temp);

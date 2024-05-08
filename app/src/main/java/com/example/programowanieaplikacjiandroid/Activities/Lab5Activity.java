@@ -16,7 +16,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.programowanieaplikacjiandroid.Fragments.PaintingFragmentList;
-import com.example.programowanieaplikacjiandroid.Fragments.SaveImageFragment;
 import com.example.programowanieaplikacjiandroid.R;
 import com.example.programowanieaplikacjiandroid.databinding.ActivityLab5Binding;;
 
@@ -24,6 +23,7 @@ public class Lab5Activity extends AppCompatActivity {
 
     ActivityLab5Binding binding;
     PaintSurfaceView paintSurfaceView;
+    boolean visible = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +73,7 @@ public class Lab5Activity extends AppCompatActivity {
         if (getSupportFragmentManager().getBackStackEntryCount()==1 ){
             binding.lab5submain.setVisibility(View.VISIBLE);
             binding.buttons.setVisibility(View.VISIBLE);
+            visible = false;
             binding.paintSurfaceView.clearCanva();
         }
         if (getSupportFragmentManager().getBackStackEntryCount() > 0){
@@ -87,24 +88,6 @@ public class Lab5Activity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 23);
         }
 
-        binding.lab5submain.setVisibility(View.INVISIBLE);
-        binding.buttons.setVisibility(View.INVISIBLE);
-
-        SaveImageFragment fragment = new SaveImageFragment();
-
-        // transferring drawing size into fragment
-//        Bundle args = new Bundle();
-//        Pair<Integer, Integer> size = paintSurfaceView.getSize();
-//        args.putInt("width", size.first);
-//        args.putInt("height", size.second);
-//        fragment.setArguments(args);
-//
-//        getSupportFragmentManager()
-//            .beginTransaction()
-//            .replace(R.id.main, fragment)
-//            .addToBackStack("save_image")
-//            .commit();
-
         if (paintSurfaceView.saveCanva("rysunek")) {
             Toast.makeText(this, "Drawing saved", Toast.LENGTH_SHORT).show();
         } else {
@@ -117,6 +100,8 @@ public class Lab5Activity extends AppCompatActivity {
         binding.lab5submain.setVisibility(View.INVISIBLE);
         binding.buttons.setVisibility(View.INVISIBLE);
 
+        visible = true;
+
         PaintingFragmentList fragmentList = new PaintingFragmentList();
         getSupportFragmentManager().beginTransaction()
             .replace(R.id.main, fragmentList)
@@ -124,4 +109,22 @@ public class Lab5Activity extends AppCompatActivity {
             .commit();
     }
 
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("visible", visible);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        visible = savedInstanceState.getBoolean("visible");
+        if(visible){
+            binding.lab5submain.setVisibility(View.INVISIBLE);
+            binding.buttons.setVisibility(View.INVISIBLE);
+        } else{
+            binding.lab5submain.setVisibility(View.VISIBLE);
+            binding.buttons.setVisibility(View.VISIBLE);
+        }
+    }
 }
